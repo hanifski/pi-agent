@@ -71,14 +71,12 @@ const PIPELINE_STEPS: StepState[] = [
 
 // ── Agent Runner ───────────────────────────────────────────────────────────────
 
-// The project root this extension lives in (~/agency-tools) — agents travel
-// with the extension, so it works no matter which directory pi is launched from.
-const EXTENSION_ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
+const EXTENSION_DIR = dirname(fileURLToPath(import.meta.url));
 
 function loadAgentDef(agentName: string, cwd: string): AgentDef {
 	const candidates = [
-		join(cwd, ".pi", "agents", `${agentName}.md`),            // project-local override
-		join(EXTENSION_ROOT, ".pi", "agents", `${agentName}.md`), // bundled with the extension
+		join(cwd, "agents", `${agentName}.md`),                        // project-local override
+		join(EXTENSION_DIR, "agents", `${agentName}.md`),              // bundled with the extension
 		join(os.homedir(), ".pi", "agent", "agents", `${agentName}.md`), // global fallback
 	];
 
