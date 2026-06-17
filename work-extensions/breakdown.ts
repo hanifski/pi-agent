@@ -48,6 +48,7 @@ import {
 interface AgentDef {
 	systemPrompt: string;
 	tools: string;
+	model?: string;
 }
 
 type StepStatus = "idle" | "running" | "done" | "error";
@@ -98,6 +99,7 @@ function loadAgentDef(agentName: string, cwd: string): AgentDef {
 	return {
 		systemPrompt: match[2].trim(),
 		tools: frontmatter.tools?.trim() || "read",
+		model: frontmatter.model?.trim(),
 	};
 }
 
@@ -109,7 +111,8 @@ function spawnPiAgent(
 	onChunk?: (text: string) => void,
 ): Promise<string> {
 	const def = loadAgentDef(agentName, cwd);
-	const model = ctx.model ? `${ctx.model.provider}/${ctx.model.id}` : "openrouter/google/gemini-3-flash-preview";
+	const model = def.model ?? (ctx.model ? `${ctx.model.provider}/${ctx.model.id}` : "openrouter/google/gemini-3-flash-preview");
+	currentAgentModel = model.split("/").pop() ?? model;
 
 	return new Promise((resolve, reject) => {
 		const proc = spawn("pi", [
@@ -175,6 +178,7 @@ function spawnPiAgent(
 let stepStates: StepState[] = PIPELINE_STEPS.map(s => ({ ...s }));
 let widgetCtx: any = null;
 let projectLabel = "";
+let currentAgentModel = "";
 
 function resetSteps() {
 	stepStates = PIPELINE_STEPS.map(s => ({ ...s }));
@@ -840,7 +844,7 @@ After run_breakdown completes, summarize: project name, feature count, module co
 			dispose: () => {},
 			invalidate() {},
 			render(width: number): string[] {
-				const model = ctx.model?.id || "no-model";
+				const model = currentAgentModel || ctx.model?.id || "no-model";
 				const usage = ctx.getContextUsage();
 				const pct = usage ? usage.percent : 0;
 				const filled = Math.round(pct / 10);
