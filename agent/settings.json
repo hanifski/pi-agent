@@ -1,0 +1,10 @@
+{
+  "lastChangelogVersion": "0.73.1",
+  "theme": "purple",
+  "defaultProvider": "bedrock",
+  "defaultModel": "zai.glm-5",
+  "extensions": [
+    "~/.pi/agent/extensions/custom-footer-auto.ts"
+  ],
+  "defaultThinkingLevel": "medium"
+}

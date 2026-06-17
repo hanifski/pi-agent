@@ -1,0 +1,26 @@
+# Sensitive
+agent/auth.json
+
+# Sessions & logs
+agent/sessions/
+breakdown-logs/
+
+# Browser
+browser-profile/
+
+# Node
+agent/node_modules/
+agent/package-lock.json
+agent/extensions/filechanges/node_modules/
+agent/extensions/filechanges/package-lock.json
+personal-extensions/node_modules/
+
+# Binaries
+agent/bin/
+
+# macOS
+.DS_Store
+
+# Work extensions is a symlink to ~/agency-tools — managed separately
+work-extensions
+agent/models.json
