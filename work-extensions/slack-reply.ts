@@ -65,13 +65,13 @@ const PIPELINE_STEPS: StepState[] = [
 
 // ── Agent Runner ───────────────────────────────────────────────────────────────
 
-const EXTENSION_ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
-const CONFIG_PATH = join(EXTENSION_ROOT, "slack-reply.config.json");
+const EXTENSION_DIR = dirname(fileURLToPath(import.meta.url));
+const CONFIG_PATH = join(EXTENSION_DIR, "slack-reply.config.json");
 
 function loadAgentDef(agentName: string, cwd: string): { systemPrompt: string; tools: string } {
 	const candidates = [
-		join(cwd, ".pi", "agents", `${agentName}.md`),
-		join(EXTENSION_ROOT, ".pi", "agents", `${agentName}.md`),
+		join(cwd, "agents", `${agentName}.md`),
+		join(EXTENSION_DIR, "agents", `${agentName}.md`),
 		join(os.homedir(), ".pi", "agent", "agents", `${agentName}.md`),
 	];
 

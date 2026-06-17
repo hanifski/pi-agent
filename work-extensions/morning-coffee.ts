@@ -53,8 +53,7 @@ const PIPELINE_STEPS: StepState[] = [
 
 // ── Agent Runner ───────────────────────────────────────────────────────────────
 
-/** Extension root directory for resolving bundled agent definitions */
-const EXTENSION_ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
+const EXTENSION_DIR = dirname(fileURLToPath(import.meta.url));
 
 /** Load agent definition with frontmatter parsing from local/bundled/global locations */
 function loadAgentDef(
@@ -62,8 +61,8 @@ function loadAgentDef(
   cwd: string,
 ): { systemPrompt: string; model: string } {
   const candidates = [
-    join(cwd, ".pi", "agents", `${agentName}.md`), // project-local override
-    join(EXTENSION_ROOT, ".pi", "agents", `${agentName}.md`), // bundled with the extension
+    join(cwd, "agents", `${agentName}.md`),                          // project-local override
+    join(EXTENSION_DIR, "agents", `${agentName}.md`),                // bundled with the extension
     join(os.homedir(), ".pi", "agent", "agents", `${agentName}.md`), // global fallback
   ];
 
