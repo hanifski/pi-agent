@@ -21,6 +21,8 @@ agent/bin/
 # macOS
 .DS_Store
 
-# Work extensions is a symlink to ~/agency-tools — managed separately
-work-extensions
+# Work extensions — exclude deps and tests
+work-extensions/node_modules/
+work-extensions/package-lock.json
+work-extensions/*.test.ts
 agent/models.json
